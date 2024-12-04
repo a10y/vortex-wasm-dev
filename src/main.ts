@@ -2,7 +2,6 @@ import './style.css'
 import "gridjs/dist/theme/mermaid.css";
 import { Grid } from "gridjs";
 import Vortex, { vortexLoad } from "a10y-vortex";
-import { TColumn } from "gridjs/dist/src/types";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -51,7 +50,7 @@ vortexLoad().then(() => {
 
     console.log("using data", sliced.to_js());
 
-    const columns: [TColumn] = [];
+    const columns: Array<any> = [];
     for (let i = 0; i < sliced.columns().length; i++) {
       const name = sliced.columns()[i];
       const dtype = sliced.types()[i];
