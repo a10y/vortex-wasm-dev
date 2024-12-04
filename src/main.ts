@@ -20,7 +20,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </p>
     <div id="data-grid"></div>
   </div>
-`
+`;
+
+let grid: Grid | undefined;
 
 // Launch the Vortex load on page load.
 vortexLoad().then(() => {
@@ -37,13 +39,27 @@ vortexLoad().then(() => {
     const sliced = array.slice(0, headLimit);
 
     // Append as child to new hidden element.
-    new Grid({
-      columns: sliced.columns(),
-      data: sliced.to_js(),
-      pagination: {
-        limit: 20,
-      }
-    }).render(document.getElementById("data-grid")!);
+    const gridElem = document.getElementById("data-grid")!;
+    gridElem.innerHTML = ``;
+
+    if (grid != undefined) {
+      grid.updateConfig({
+        columns: sliced.columns(),
+        data: sliced.to_js(),
+        pagination: {
+          limit: 20,
+        }
+      });
+      grid.forceRender();
+    } else {
+      grid = new Grid({
+        columns: sliced.columns(),
+        data: sliced.to_js(),
+        pagination: {
+          limit: 20,
+        }
+      }).render(gridElem);
+    }
   }
 
   filePicker.onchange = () => {
