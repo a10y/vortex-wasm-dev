@@ -42,8 +42,17 @@ vortexLoad().then(() => {
     const gridElem = document.getElementById("data-grid")!;
     gridElem.innerHTML = ``;
 
+    for (let i = 0; i < sliced.columns().length; i++) {
+      const name = sliced.columns()[i];
+      const dtype = sliced.types()[i];
+      console.log(`column: ${name} (${dtype})`);
+    }
+
+    console.log("using data", sliced.to_js());
+
     if (grid != undefined) {
       grid.updateConfig({
+        resizable: true,
         columns: sliced.columns(),
         data: sliced.to_js(),
         pagination: {
@@ -53,6 +62,7 @@ vortexLoad().then(() => {
       grid.forceRender();
     } else {
       grid = new Grid({
+        resizable: true,
         columns: sliced.columns(),
         data: sliced.to_js(),
         pagination: {
