@@ -2,6 +2,7 @@ import './style.css'
 import "gridjs/dist/theme/mermaid.css";
 import { Grid } from "gridjs";
 import Vortex, { vortexLoad } from "a10y-vortex";
+import { TColumn } from "gridjs/dist/src/types";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -50,24 +51,34 @@ vortexLoad().then(() => {
 
     console.log("using data", sliced.to_js());
 
+    const columns: [TColumn] = [];
+    for (let i = 0; i < sliced.columns().length; i++) {
+      const name = sliced.columns()[i];
+      const dtype = sliced.types()[i];
+      columns.push({
+        id: sliced.columns()[i],
+        name: `${name} (${dtype})`,
+      });
+    }
+
     if (grid != undefined) {
       grid.updateConfig({
         resizable: true,
-        columns: sliced.columns(),
+        columns: columns,
         data: sliced.to_js(),
         pagination: {
           limit: 20,
-        }
+        },
       });
       grid.forceRender();
     } else {
       grid = new Grid({
         resizable: true,
-        columns: sliced.columns(),
+        columns: columns,
         data: sliced.to_js(),
         pagination: {
           limit: 20,
-        }
+        },
       }).render(gridElem);
     }
   }
