@@ -16,5 +16,8 @@
     "a10y-vortex": "^0.2.0",
     "apache-arrow": "^18.1.0",
     "gridjs": "^6.2.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
   }
 }
